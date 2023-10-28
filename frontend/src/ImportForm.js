@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import HighPriorityIngredients from './HighPriorityIngredients';
+import IngredientForm from './IngredientForm';
 import MustNotIngredients from './MustNotIngredients';
 import CanHaveIngredients from './CanHaveIngredients';
 
@@ -27,19 +27,20 @@ function ImportForm() {
     const [cookingTime, setCookingTime] = useState('');
     const [mealType, setMealType] = useState('');
 
-    const highPriorityRef = useRef();
-    const mustNotRef = useRef();
-    const canHaveRef = useRef();
+    const handleAddIngredient = (e, type, ingredient) => {
+      if (ingredient != "" && !ingredients[type].includes(ingredient)) {
+        setIngredients(prevIngredients => ({
+            ...prevIngredients,
+            [type]: [...prevIngredients[type], ingredient]
+          }));
+        }
+    }
   
     const handleSubmit = (e) => {
       e.preventDefault();
   
       const recipeData = {
-        ingredients: {
-          mustHave: highPriorityRef.current,
-          cannotHave: mustNotRef.current,
-          canHave: canHaveRef.current,
-        },
+        ingredients: ingredients,
         cookingTime: cookingTime,
         mealType: mealType,
       };
@@ -64,9 +65,27 @@ function ImportForm() {
   
     return (
       <form >
-        <HighPriorityIngredients ref={highPriorityRef} />
-        <MustNotIngredients ref={mustNotRef} />
-        <CanHaveIngredients ref={canHaveRef} />
+        <div>
+          <h4>High-Priority Ingredients</h4>
+          <IngredientForm handleAddIngredient={handleAddIngredient} type= {"mustHave"} />
+          <ul>
+            {ingredients["mustHave"].map((ingredient, index) => (
+              <li key={index}>{ingredient}</li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h4>Allergens and Dietary Restrictions</h4>
+          <IngredientForm handleAddIngredient={handleAddIngredient} type= {"cannotHave"} />
+          <ul>
+            {ingredients["cannotHave"].map((ingredient, index) => (
+              <li key={index}>{ingredient}</li>
+            ))}
+          </ul>
+        </div>
+        
+        {/* <MustNotIngredients />
+        <CanHaveIngredients /> */}
         <br />
         <label>
           Cooking Time:
