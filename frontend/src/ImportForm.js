@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-
+import React, { useState, useRef } from 'react';
+import HighPriorityIngredients from './HighPriorityIngredients';
+import MustNotIngredients from './MustNotIngredients';
+import CanHaveIngredients from './CanHaveIngredients';
 
 const mealTypeOptions = [
     "",
@@ -24,39 +26,19 @@ function ImportForm() {
     });
     const [cookingTime, setCookingTime] = useState('');
     const [mealType, setMealType] = useState('');
-  
-    const handleMustHaveChange = (e) => {
-      const mustHaveIngredients = e.target.value.split(',');
-      setIngredients((prevIngredients) => ({
-        ...prevIngredients,
-        mustHave: mustHaveIngredients,
-      }));
-    };
-  
-    const handleCannotHaveChange = (e) => {
-      const cannotHaveIngredients = e.target.value.split(',');
-      setIngredients((prevIngredients) => ({
-        ...prevIngredients,
-        cannotHave: cannotHaveIngredients,
-      }));
-    };
-  
-    const handleIngredientsChange = (e) => {
-      const inputIngredients = e.target.value.split(',');
-      setIngredients((prevIngredients) => ({
-        ...prevIngredients,
-        canHave: inputIngredients,
-      }));
-    };
+
+    const highPriorityRef = useRef();
+    const mustNotRef = useRef();
+    const canHaveRef = useRef();
   
     const handleSubmit = (e) => {
       e.preventDefault();
   
       const recipeData = {
         ingredients: {
-          mustHave: ingredients.mustHave,
-          cannotHave: ingredients.cannotHave,
-          canHave: ingredients.canHave,
+          mustHave: highPriorityRef.current,
+          cannotHave: mustNotRef.current,
+          canHave: canHaveRef.current,
         },
         cookingTime: cookingTime,
         mealType: mealType,
@@ -81,33 +63,10 @@ function ImportForm() {
     };
   
     return (
-      <form onSubmit={handleSubmit}>
-        <label>
-          Must-Have Ingredients:
-          <input
-            type="text"
-            value={ingredients.mustHave.join(',')}
-            onChange={handleMustHaveChange}
-          />
-        </label>
-        <br />
-        <label>
-          Cannot-Have Ingredients:
-          <input
-            type="text"
-            value={ingredients.cannotHave.join(',')}
-            onChange={handleCannotHaveChange}
-          />
-        </label>
-        <br />
-        <label>
-          Can-Have Ingredients:
-          <input
-            type="text"
-            value={ingredients.canHave.join(',')}
-            onChange={handleIngredientsChange}
-          />
-        </label>
+      <form >
+        <HighPriorityIngredients ref={highPriorityRef} />
+        <MustNotIngredients ref={mustNotRef} />
+        <CanHaveIngredients ref={canHaveRef} />
         <br />
         <label>
           Cooking Time:
@@ -131,7 +90,10 @@ function ImportForm() {
             </select>
         </label>
         <br />
-        <button type="submit">Add Preferences!</button>
+        <button onClick={handleSubmit}>
+            Submit!
+        </button>
+        {/*<button type="submit">Add Preferences!</button>*/}
       </form>
     );
   }
