@@ -1,5 +1,21 @@
 import React, { useState } from 'react';
 
+
+const mealTypeOptions = [
+    "",
+    "Breakfast",
+    "Entree",
+    "Snack/Appetizer",
+    "Dessert",
+  ];
+
+const cookingTimeOptions = [
+    "",
+    "<25 min",
+    "25-45 min",
+    ">45 min"
+]
+
 function ImportForm() {
     const [ingredients, setIngredients] = useState({
       mustHave: [],
@@ -95,20 +111,24 @@ function ImportForm() {
         <br />
         <label>
           Cooking Time:
-          <input
-            type="text"
-            value={cookingTime}
-            onChange={(e) => setCookingTime(e.target.value)}
-          />
+            <select value={mealType} onChange={(e) => setCookingTime(e.target.value)}>
+            {cookingTimeOptions.map((option) => (
+                <option key={option} value={option}>
+                {option}
+                </option>
+            ))}
+            </select>
         </label>
         <br />
         <label>
-          Meal Type:
-          <input
-            type="text"
-            value={mealType}
-            onChange={(e) => setMealType(e.target.value)}
-          />
+            Meal Type:
+            <select value={mealType} onChange={(e) => setMealType(e.target.value)}>
+            {mealTypeOptions.map((option) => (
+                <option key={option} value={option}>
+                {option}
+                </option>
+            ))}
+            </select>
         </label>
         <br />
         <button type="submit">Add Preferences!</button>
