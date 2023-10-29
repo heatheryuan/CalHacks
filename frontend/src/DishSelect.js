@@ -9,6 +9,7 @@ export default function DishSelect(props) {
                 select your dishes!
             </h1>
             <p>{dishes}</p>
+            {console.log(dishes)}
             <button onClick={() => setLoaded(false)}>Go Back</button>
         </div>
         

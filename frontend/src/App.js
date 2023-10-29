@@ -9,17 +9,6 @@ function App() {
   const [loaded, setLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
 
-//   useEffect(() => {
-//     fetch('http://127.0.0.1:5000')
-//       .then((response) => response.json())
-//       .then((data) => {
-//           setResponse(data["data"]);
-//       })
-//       .catch((err) => {
-//           console.log(err.message);
-//       });
-// }, []);
-
   return (
     <div className="App">
       {loading 

@@ -15,8 +15,6 @@ def formatPrompt(ingredients, cookingTime, mealType, keyWords):
     )
     return prompt
 
-
-
 def generate_recs(ingredients, cookingTime="", mealType="", keyWords=[]):
     prompt = formatPrompt(ingredients, cookingTime, mealType, keyWords)
 
@@ -46,9 +44,9 @@ def generate_recs(ingredients, cookingTime="", mealType="", keyWords=[]):
 
     return generated_text
 
-def find_recipes():
+def find_recipes(recipe):
     recipes = []
-    for result in search("cats", num_results=5, advanced=True):
+    for result in search(recipe, num_results=5, advanced=True):
         recipes.append(result)
     return recipes
 
