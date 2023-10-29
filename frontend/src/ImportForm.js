@@ -1,7 +1,5 @@
 import React, { useState, useRef } from 'react';
 import IngredientForm from './IngredientForm';
-import MustNotIngredients from './MustNotIngredients';
-import CanHaveIngredients from './CanHaveIngredients';
 
 const mealTypeOptions = [
     "",
@@ -22,7 +20,6 @@ function ImportForm() {
     const [ingredients, setIngredients] = useState({
       mustHave: [],
       cannotHave: [],
-      canHave: [],
     });
     const [cookingTime, setCookingTime] = useState('');
     const [mealType, setMealType] = useState('');
@@ -83,13 +80,10 @@ function ImportForm() {
             ))}
           </ul>
         </div>
-        
-        {/* <MustNotIngredients />
-        <CanHaveIngredients /> */}
         <br />
         <label>
           Cooking Time:
-            <select value={mealType} onChange={(e) => setCookingTime(e.target.value)}>
+            <select value={cookingTime} onChange={(e) => setCookingTime(e.target.value)}>
             {cookingTimeOptions.map((option) => (
                 <option key={option} value={option}>
                 {option}

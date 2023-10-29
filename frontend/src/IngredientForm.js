@@ -9,7 +9,6 @@ function IngredientForm(props) {
   };
 
   const handleAdd = (e, type) => {
-    console.log(e);
     e.preventDefault();
     handleAddIngredient(e, type, ingredient);
     setIngredient("");
