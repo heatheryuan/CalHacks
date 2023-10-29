@@ -1,12 +1,31 @@
 import requests
 from googlesearch import search
 
-def get_recs():
+TEMPLATE_FILE = '/Users/charliegu_1/Documents/CalHacks/backend/prompts/prompt2.txt'
+
+template = open(TEMPLATE_FILE, 'r').read()
+
+def formatPrompt(ingredients, cookingTime, mealType, keyWords): 
+    prompt = template.format(
+        must = ingredients['mustHave'],
+        can = ingredients['canHave'],
+        cannot = ingredients['cannotHave'],
+        time = cookingTime,
+        meal = mealType,
+        keyWords = keyWords
+    )
+    return prompt
+
+
+
+def generate_recs(ingredients, cookingTime="", mealType="", keyWords=[]):
+    prompt = formatPrompt(ingredients, cookingTime, mealType, keyWords)
+
     endpoint = 'https://api.together.xyz/inference'
     res = requests.post(endpoint, json={
         "model": "togethercomputer/llama-2-70b-chat",
-        "max_tokens": 512,
-        "prompt": "tell me a joke",
+        "max_tokens": 600,
+        "prompt": prompt,
         "request_type": "language-model-inference",
         "temperature": 0.7,
         "top_p": 0.7,
@@ -23,6 +42,7 @@ def get_recs():
     })
 
     res_json = res.json()
+    print(res_json)
     generated_text = [choice["text"] for choice in res_json["output"]["choices"]]
 
     return generated_text
