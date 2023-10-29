@@ -1,33 +1,21 @@
 import './App.css';
 import React, { useState, useEffect } from "react";
 import ImportForm from './ImportForm';
+import DishSelect from './DishSelect';
 
 function App() {
   const [response, setResponse] = useState("");
-
-  useEffect(() => {
-    fetch('http://127.0.0.1:5000')
-      .then((response) => response.json())
-      .then((data) => {
-          setResponse(data["data"]);
-      })
-      .catch((err) => {
-          console.log(err.message);
-      });
-}, []);
-
-  // async function api_ex() {
-  //   const response = await fetch('http://127.0.0.1:5000');
-  //   const data = await response.json();
-  //   console.log(data);
-  // }
+  const [dishes, setDishes] = useState({});
+  const [loaded, setLoaded] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   return (
     <div className="App">
-      <header>Hi!</header>
-      <header>{response}</header>
-      <h1>Please Fill In</h1>
-      <ImportForm />
+      {loading 
+      ? <h1>loading... please wait</h1> 
+      : loaded 
+        ? <DishSelect dishes={dishes} setLoaded={setLoaded}/> 
+        : <ImportForm setDishes={setDishes} setLoaded={setLoaded} setLoading={setLoading}/>}
     </div>
   );
 }

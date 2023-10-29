@@ -16,7 +16,7 @@ const cookingTimeOptions = [
     ">45 min"
 ]
 
-function ImportForm() {
+function ImportForm(props) {
     const [ingredients, setIngredients] = useState({
       mustHave: [],
       cannotHave: [],
@@ -24,6 +24,8 @@ function ImportForm() {
     const [cookingTime, setCookingTime] = useState('');
     const [mealType, setMealType] = useState('');
     const [keyWord, setKeyWord] = useState([]);
+
+    const {setDishes, setLoaded, setLoading} = props;
 
     const handleAddIngredient = (e, type, ingredient) => {
       if (type !== "keyWord") {
@@ -53,19 +55,20 @@ function ImportForm() {
         mealType: mealType,
         keyWord: keyWord
       };
-  
-      fetch('http://127.0.0.1:5000/add_prefs', {
+      
+      setLoading(true);
+      fetch('http://127.0.0.1:5000/get-recs', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(recipeData),
       })
-        //.then((response) => response.json())
-        
         .then((response) => response.text())
         .then((data) => {
-          console.log(data);
+          setLoading(false);
+          setDishes(data);
+          setLoaded(true);
         })
         .catch((error) => {
           console.error('Error:', error);
@@ -74,6 +77,7 @@ function ImportForm() {
   
     return (
       <form >
+        <h1>Please Fill In</h1>
         <div>
           <h4>High-Priority Ingredients</h4>
           <IngredientForm handleAddIngredient={handleAddIngredient} type= {"mustHave"} />

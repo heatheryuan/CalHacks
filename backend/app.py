@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, make_response, request
 from flask_cors import CORS, cross_origin
+from utils import generate_recs
 
 
 app = Flask(__name__)
@@ -12,12 +13,31 @@ def hello_world():
     response = {"data": "This is from the Flask API call!"}
     return jsonify(response)
 
-@app.route('/add_prefs', methods=['POST'])
+@app.route('/get-recs', methods=['POST'])
 @cross_origin()
-def add_prefs():
+def get_recs():
     data = request.get_json()
     ingredients = data['ingredients']
     cookingTime = data['cookingTime']
     mealType = data['mealType']
-    response_data = {"message": "Preferences received successfully"}
-    return jsonify(response_data)
+
+    dishes = generate_recs(ingredients, cookingTime, mealType)
+    
+    recommendations = dishes.split("\n\n")[1:]
+
+    recipes_list = []
+
+    for rec in recommendations:
+        single_recipe_dict = {}
+        lines = rec.split("\n")
+        
+        for line in lines[1:]:
+            if ":" in line:
+                split_line = line.split(": ")
+                single_recipe_dict[split_line[0]] = split_line[1]
+            else:
+                single_recipe_dict['Description'] = line
+
+        recipes_list.append({"Recommendation": single_recipe_dict})
+
+    return jsonify({"data": recipes_list})

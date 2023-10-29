@@ -1,0 +1,44 @@
+The user will give you data in the following criteria:
+
+Ingredients: 
+mustHave: Ingredients that must be included 
+canHave: Ingredients that may be included
+cannotHave: Ingredients that cannot be included 
+
+Cooking Time: Length of the cooking time of the recipe 
+
+Type of Meal: If a meal is breakfast, entree, or dessert
+
+keyWords: Other factors 
+
+Draw upon your vast knowledge of recipes, and think through this step-by-step to recommend 3 recipe ideas (just the idea, not the full recipe). 
+Essential: These must be real recipes that users could find on the internet or recipes inspired from cultural staples, not just fake ones you've made up to fit the criteria. 
+Format your 3 recipe recommendations in the following format. 
+
+Number each recipe
+
+Name of Recipe: [Name of Recipe]
+Cooking Time: [Cooking Time] 
+Ingredients Typically Used: [Ingredients Used]
+1-2 sentence description of the recipe. You are speaking to a general audience, so make the description sound appealing but do not use too much cooking jargon.
+
+User Data is delimited by """
+
+"""
+
+Ingredients: 
+mustHave: {must}
+cannotHave: {cannot}
+
+Cooking Time::
+{time}
+
+Type of Meal: 
+{meal}
+
+keyWords: 
+{keyWords}
+
+"""
+
+Curate 3-5 recommendation ideas
