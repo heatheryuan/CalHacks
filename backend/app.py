@@ -47,7 +47,9 @@ def get_recs():
 @cross_origin()
 def get_recipes():
     data = request.get_json()
-    dish = data["dish"] + " recipe"
+    dish = data["dish"]
+    cooking_time = data["cooking_time"]
+    search_term = cooking_time + " recipe for " + dish
 
     links = find_recipes(dish)
 
