@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import IngredientForm from './IngredientForm';
 
 const mealTypeOptions = [
@@ -23,16 +23,27 @@ function ImportForm(props) {
     });
     const [cookingTime, setCookingTime] = useState('');
     const [mealType, setMealType] = useState('');
+    const [keyWord, setKeyWord] = useState([]);
 
     const {setDishes, setLoaded, setLoading} = props;
 
     const handleAddIngredient = (e, type, ingredient) => {
-      if (ingredient != "" && !ingredients[type].includes(ingredient)) {
-        setIngredients(prevIngredients => ({
-            ...prevIngredients,
-            [type]: [...prevIngredients[type], ingredient]
-          }));
+      if (type !== "keyWord") {
+        if (ingredient != "" && !ingredients[type].includes(ingredient)) {
+            setIngredients(prevIngredients => ({
+                ...prevIngredients,
+                [type]: [...prevIngredients[type], ingredient]
+              }));
+            }
+      } else {
+        if (ingredient != "" && !keyWord.includes(ingredient)) {
+            setKeyWord(prevKeyWords => ([
+                ...prevKeyWords,
+                ingredient
+            ]))
         }
+      }
+      
     }
   
     const handleSubmit = (e) => {
@@ -42,6 +53,7 @@ function ImportForm(props) {
         ingredients: ingredients,
         cookingTime: cookingTime,
         mealType: mealType,
+        keyWord: keyWord
       };
       
       setLoading(true);
@@ -107,10 +119,19 @@ function ImportForm(props) {
             </select>
         </label>
         <br />
+        <div>
+          <h4>Key Words</h4>
+          <IngredientForm handleAddIngredient={handleAddIngredient} type= {"keyWord"} />
+          <ul>
+            {keyWord.map((ingredient, index) => (
+              <li key={index}>{ingredient}</li>
+            ))}
+          </ul>
+        </div>
         <button onClick={handleSubmit}>
             Submit!
         </button>
-        {/*<button type="submit">Add Preferences!</button>*/}
+        
       </form>
     );
   }
