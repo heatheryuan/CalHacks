@@ -23,7 +23,7 @@ def get_recs():
 
     dishes = generate_recs(ingredients, cookingTime, mealType)
     
-    recommendations = dishes.split("\n\n")[1:]
+    recommendations = dishes[0].split("\n\n")[1:]
 
     recipes_list = []
 
@@ -38,6 +38,8 @@ def get_recs():
             else:
                 single_recipe_dict['Description'] = line
 
-        recipes_list.append({"Recommendation": single_recipe_dict})
+        recipes_list.append(single_recipe_dict)
+    
+    print(recipes_list)
 
     return jsonify({"data": recipes_list})
