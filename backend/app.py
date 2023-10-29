@@ -20,9 +20,8 @@ def get_recs():
     ingredients = data['ingredients']
     cookingTime = data['cookingTime']
     mealType = data['mealType']
-    keyWords = data['keyWords']
 
-    dishes = generate_recs(ingredients, cookingTime, mealType, keyWords)
+    dishes = generate_recs(ingredients, cookingTime, mealType)
     
     recommendations = dishes[0].split("\n\n")
 
@@ -30,15 +29,14 @@ def get_recs():
 
     for rec in recommendations:
         lines = rec.split("\n")
-        key = lines[0]
+        key = lines[0].rstrip(':')
         recipe_dict[key] = {}
         
         for line in lines[1:]:
             if ":" in line:
                 split_line = line.split(": ")
                 recipe_dict[key][split_line[0]] = split_line[1]
-
-    response_data = {"dishes": dishes}
+            else:
+                recipe_dict[key]['Description'] = line
 
     return jsonify(recipe_dict)
-    

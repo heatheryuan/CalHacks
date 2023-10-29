@@ -1,14 +1,13 @@
 import requests
 from googlesearch import search
 
-TEMPLATE_FILE = '/Users/charliegu_1/Documents/CalHacks/backend/prompts/prompt2.txt'
+TEMPLATE_FILE = "./prompts/prompt2.txt"
 
 template = open(TEMPLATE_FILE, 'r').read()
 
 def formatPrompt(ingredients, cookingTime, mealType, keyWords): 
     prompt = template.format(
         must = ingredients['mustHave'],
-        can = ingredients['canHave'],
         cannot = ingredients['cannotHave'],
         time = cookingTime,
         meal = mealType,

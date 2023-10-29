@@ -28,7 +28,6 @@ User Data is delimited by """
 
 Ingredients: 
 mustHave: {must}
-canHave: {can}
 cannotHave: {cannot}
 
 Cooking Time::
