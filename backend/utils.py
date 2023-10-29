@@ -46,6 +46,12 @@ def generate_recs(ingredients, cookingTime="", mealType="", keyWords=[]):
 
 def find_recipes(recipe):
     recipes = []
-    for result in search(recipe, num_results=5, advanced=True):
-        recipes.append(result)
+    search_results = list(search(recipe, num_results=5, advanced=True))
+    for result in search_results:
+        res_dict = {
+            "title": result.title,
+            "url": result.url,
+            "description": result.description
+        }
+        recipes.append(dict(res_dict))
     return recipes
