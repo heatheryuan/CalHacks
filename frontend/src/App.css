@@ -23,6 +23,9 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+.recipeContainer {    /* Centers the buttons horizontally */
+  gap: 10px;               /* Provides spacing between the buttons */
+}
 
 .App-link {
   color: #61dafb;
