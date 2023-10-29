@@ -8,7 +8,7 @@ export default function DishSelect(props) {
 
     function selectRecipe(index) {
         setSelectedRecipe(dishes["data"][index]);
-        handleSubmit();
+        // handleSubmit();
     }
 
     function displayRecipe(index) {
