@@ -26,4 +26,10 @@ yarn-error.log*
 calhack
 backend/calhack
 backend/chacks
+<<<<<<< HEAD
 backend/env
+=======
+backend/env
+
+backend/.env
+>>>>>>> 3f05438c3abe6bf45101235d6ad6e76b8b1e1273

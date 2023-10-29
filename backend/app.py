@@ -1,6 +1,7 @@
-from flask import Flask, jsonify, make_response, request
+from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
-from utils import generate_recs
+from utils import generate_recs, find_recipes
+import sys
 
 
 app = Flask(__name__)
@@ -23,7 +24,7 @@ def get_recs():
 
     dishes = generate_recs(ingredients, cookingTime, mealType)
     
-    recommendations = dishes.split("\n\n")[1:]
+    recommendations = dishes[0].split("\n\n")[1:]
 
     recipes_list = []
 
@@ -38,6 +39,16 @@ def get_recs():
             else:
                 single_recipe_dict['Description'] = line
 
-        recipes_list.append({"Recommendation": single_recipe_dict})
+        recipes_list.append(single_recipe_dict)
 
     return jsonify({"data": recipes_list})
+
+@app.route('/get-recipes', methods=['POST'])
+@cross_origin()
+def get_recipes():
+    data = request.get_json()
+    dish = data["dish"] + " recipe"
+
+    links = find_recipes(dish)
+
+    return jsonify({"data": links})
