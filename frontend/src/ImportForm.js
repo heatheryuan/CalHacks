@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-
+import React, { useState, useRef } from 'react';
+import IngredientForm from './IngredientForm';
 
 const mealTypeOptions = [
     "",
@@ -20,44 +20,24 @@ function ImportForm() {
     const [ingredients, setIngredients] = useState({
       mustHave: [],
       cannotHave: [],
-      canHave: [],
     });
     const [cookingTime, setCookingTime] = useState('');
     const [mealType, setMealType] = useState('');
-  
-    const handleMustHaveChange = (e) => {
-      const mustHaveIngredients = e.target.value.split(',');
-      setIngredients((prevIngredients) => ({
-        ...prevIngredients,
-        mustHave: mustHaveIngredients,
-      }));
-    };
-  
-    const handleCannotHaveChange = (e) => {
-      const cannotHaveIngredients = e.target.value.split(',');
-      setIngredients((prevIngredients) => ({
-        ...prevIngredients,
-        cannotHave: cannotHaveIngredients,
-      }));
-    };
-  
-    const handleIngredientsChange = (e) => {
-      const inputIngredients = e.target.value.split(',');
-      setIngredients((prevIngredients) => ({
-        ...prevIngredients,
-        canHave: inputIngredients,
-      }));
-    };
+
+    const handleAddIngredient = (e, type, ingredient) => {
+      if (ingredient != "" && !ingredients[type].includes(ingredient)) {
+        setIngredients(prevIngredients => ({
+            ...prevIngredients,
+            [type]: [...prevIngredients[type], ingredient]
+          }));
+        }
+    }
   
     const handleSubmit = (e) => {
       e.preventDefault();
   
       const recipeData = {
-        ingredients: {
-          mustHave: ingredients.mustHave,
-          cannotHave: ingredients.cannotHave,
-          canHave: ingredients.canHave,
-        },
+        ingredients: ingredients,
         cookingTime: cookingTime,
         mealType: mealType,
       };
@@ -81,37 +61,29 @@ function ImportForm() {
     };
   
     return (
-      <form onSubmit={handleSubmit}>
-        <label>
-          Must-Have Ingredients:
-          <input
-            type="text"
-            value={ingredients.mustHave.join(',')}
-            onChange={handleMustHaveChange}
-          />
-        </label>
-        <br />
-        <label>
-          Cannot-Have Ingredients:
-          <input
-            type="text"
-            value={ingredients.cannotHave.join(',')}
-            onChange={handleCannotHaveChange}
-          />
-        </label>
-        <br />
-        <label>
-          Can-Have Ingredients:
-          <input
-            type="text"
-            value={ingredients.canHave.join(',')}
-            onChange={handleIngredientsChange}
-          />
-        </label>
+      <form >
+        <div>
+          <h4>High-Priority Ingredients</h4>
+          <IngredientForm handleAddIngredient={handleAddIngredient} type= {"mustHave"} />
+          <ul>
+            {ingredients["mustHave"].map((ingredient, index) => (
+              <li key={index}>{ingredient}</li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h4>Allergens and Dietary Restrictions</h4>
+          <IngredientForm handleAddIngredient={handleAddIngredient} type= {"cannotHave"} />
+          <ul>
+            {ingredients["cannotHave"].map((ingredient, index) => (
+              <li key={index}>{ingredient}</li>
+            ))}
+          </ul>
+        </div>
         <br />
         <label>
           Cooking Time:
-            <select value={mealType} onChange={(e) => setCookingTime(e.target.value)}>
+            <select value={cookingTime} onChange={(e) => setCookingTime(e.target.value)}>
             {cookingTimeOptions.map((option) => (
                 <option key={option} value={option}>
                 {option}
@@ -131,7 +103,10 @@ function ImportForm() {
             </select>
         </label>
         <br />
-        <button type="submit">Add Preferences!</button>
+        <button onClick={handleSubmit}>
+            Submit!
+        </button>
+        {/*<button type="submit">Add Preferences!</button>*/}
       </form>
     );
   }
