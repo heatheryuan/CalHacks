@@ -64,7 +64,7 @@ function ImportForm(props) {
         },
         body: JSON.stringify(recipeData),
       })
-        .then((response) => response.text())
+        .then((response) => response.json())
         .then((data) => {
           setLoading(false);
           setDishes(data);

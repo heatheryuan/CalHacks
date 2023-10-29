@@ -1,6 +1,6 @@
 import requests
 from googlesearch import search
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
 TEMPLATE_FILE = "./prompts/prompt2.txt"
 
