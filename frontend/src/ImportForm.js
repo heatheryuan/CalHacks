@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import IngredientForm from './IngredientForm';
 
 const mealTypeOptions = [
@@ -23,14 +23,25 @@ function ImportForm() {
     });
     const [cookingTime, setCookingTime] = useState('');
     const [mealType, setMealType] = useState('');
+    const [keyWord, setKeyWord] = useState([]);
 
     const handleAddIngredient = (e, type, ingredient) => {
-      if (ingredient != "" && !ingredients[type].includes(ingredient)) {
-        setIngredients(prevIngredients => ({
-            ...prevIngredients,
-            [type]: [...prevIngredients[type], ingredient]
-          }));
+      if (type !== "keyWord") {
+        if (ingredient != "" && !ingredients[type].includes(ingredient)) {
+            setIngredients(prevIngredients => ({
+                ...prevIngredients,
+                [type]: [...prevIngredients[type], ingredient]
+              }));
+            }
+      } else {
+        if (ingredient != "" && !keyWord.includes(ingredient)) {
+            setKeyWord(prevKeyWords => ([
+                ...prevKeyWords,
+                ingredient
+            ]))
         }
+      }
+      
     }
   
     const handleSubmit = (e) => {
@@ -40,6 +51,7 @@ function ImportForm() {
         ingredients: ingredients,
         cookingTime: cookingTime,
         mealType: mealType,
+        keyWord: keyWord
       };
   
       fetch('http://127.0.0.1:5000/add_prefs', {
@@ -103,10 +115,19 @@ function ImportForm() {
             </select>
         </label>
         <br />
+        <div>
+          <h4>Key Words</h4>
+          <IngredientForm handleAddIngredient={handleAddIngredient} type= {"keyWord"} />
+          <ul>
+            {keyWord.map((ingredient, index) => (
+              <li key={index}>{ingredient}</li>
+            ))}
+          </ul>
+        </div>
         <button onClick={handleSubmit}>
             Submit!
         </button>
-        {/*<button type="submit">Add Preferences!</button>*/}
+        
       </form>
     );
   }
