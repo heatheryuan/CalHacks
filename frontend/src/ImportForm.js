@@ -16,13 +16,15 @@ const cookingTimeOptions = [
     ">45 min"
 ]
 
-function ImportForm() {
+function ImportForm(props) {
     const [ingredients, setIngredients] = useState({
       mustHave: [],
       cannotHave: [],
     });
     const [cookingTime, setCookingTime] = useState('');
     const [mealType, setMealType] = useState('');
+
+    const {setDishes, setSubmitted} = props;
 
     const handleAddIngredient = (e, type, ingredient) => {
       if (ingredient != "" && !ingredients[type].includes(ingredient)) {
@@ -49,11 +51,11 @@ function ImportForm() {
         },
         body: JSON.stringify(recipeData),
       })
-        //.then((response) => response.json())
-        
         .then((response) => response.text())
         .then((data) => {
           console.log(data);
+          setDishes(data);
+          setSubmitted(true);
         })
         .catch((error) => {
           console.error('Error:', error);

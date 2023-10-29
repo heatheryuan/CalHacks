@@ -23,6 +23,7 @@ def get_recs():
     })
 
     res_json = res.json()
+    print(res_json)
     generated_text = [choice["text"] for choice in res_json["output"]["choices"]]
 
     return generated_text

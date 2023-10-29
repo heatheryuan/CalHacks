@@ -1,9 +1,12 @@
 import './App.css';
 import React, { useState, useEffect } from "react";
 import ImportForm from './ImportForm';
+import DishSelect from './DishSelect';
 
 function App() {
   const [response, setResponse] = useState("");
+  const [dishes, setDishes] = useState("");
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     fetch('http://127.0.0.1:5000')
@@ -16,18 +19,12 @@ function App() {
       });
 }, []);
 
-  // async function api_ex() {
-  //   const response = await fetch('http://127.0.0.1:5000');
-  //   const data = await response.json();
-  //   console.log(data);
-  // }
-
   return (
     <div className="App">
       <header>Hi!</header>
       <header>{response}</header>
       <h1>Please Fill In</h1>
-      <ImportForm />
+      {submitted ? <DishSelect dishes={dishes} setSubmitted={setSubmitted}/> : <ImportForm setDishes={setDishes} setSubmitted={setSubmitted}/>}
     </div>
   );
 }
