@@ -53,4 +53,4 @@ def get_recipes():
 
     links = find_recipes(dish)
 
-    return jsonify({"data": links})
+    return jsonify({"data": links[0]})
